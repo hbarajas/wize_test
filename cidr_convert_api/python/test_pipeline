@@ -1,0 +1,21 @@
+pipeline {
+	agent any
+
+	stages {
+		stage('Build') {
+			steps {
+				sh "docker build -t test_image:test ."
+			}
+		}
+		stage('Test') {
+			steps {
+				sh "docker run -v python/app.py:/app -w /app python:3-alpine python -m unittest"
+			}
+		}
+		stage('Deploy') {
+			steps {
+				echo 'Deploying'
+			}
+		}
+	}
+}
